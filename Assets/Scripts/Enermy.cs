@@ -6,7 +6,8 @@ public class Enermy : MonoBehaviour
 {
     public Transform target; 
     private Rigidbody rig; 
-    public float speed = 20f; 
+    public float speed = 20f;
+    private bool scored = false;
     private void Start() 
     { 
         rig = GetComponent<Rigidbody>(); 
@@ -20,4 +21,14 @@ public class Enermy : MonoBehaviour
             rig.AddForce(trans * speed * Time.deltaTime); 
         }
     }
+    private void OnTriggerEnter(Collider other) 
+    { 
+        if (other.tag == "Bullet" && scored == false) 
+        { 
+            scored = true; GameManager.instance.AddScore(1); 
+            transform.position = new Vector3(Random.Range(-30, 30), 0.5f, Random.Range(-30, 30)); 
+            scored = false; 
+        } 
+    }
+
 }
